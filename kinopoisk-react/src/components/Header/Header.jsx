@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
-import Navigation from '../Navigation/Navigation';
+import Navigation from '../NavigationSection/Navigation';
 import { genres } from '../../../data'
 import './Header.css'
 import logo from '../../assets/logo.svg';
 
 
-export default function Header() {
+export default function Header({ onSearch }) {
 
     const [valueInput, setValueInput] = useState('')
     const [choiseGenre, setChoiseGenre] = useState('Боевик')
@@ -21,6 +21,7 @@ export default function Header() {
         event.preventDefault()
         const saveValue = valueInput
         setSaveFilm(saveValue)
+        onSearch(saveValue)
         setValueInput('')
     }
     const getGenre = useCallback((genre) => {
