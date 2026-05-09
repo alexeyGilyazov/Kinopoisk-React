@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import Navigation from "../NavigationSection/Navigation";
+import Select from "../../Select/Select";
 import { genres } from "../../../data";
 import "./Header.css";
 import logo from "../../assets/logo.svg";
@@ -36,10 +37,7 @@ export default function Header({ onSearch, onGenreSelect }) {
       <div className="container">
         <div className="header">
           <img style={{ width: "450px" }} src={logo} alt="logo" />
-          <Navigation
-            genres={genres}
-            onGenreSelect={getGenre} // Передаём только эту функцию
-          />
+          <Navigation genres={genres} onGenreSelect={getGenre} />
           <form onSubmit={searchFilm}>
             <Input
               handleInputChange={handleInputChange}
@@ -55,6 +53,7 @@ export default function Header({ onSearch, onGenreSelect }) {
         </div>
         <p>Выбранный жанр: {choiseGenre}</p>
         <p>Введенный фильм: {saveFilm}</p>
+        <Select />
       </div>
     </header>
   );
