@@ -6,7 +6,7 @@
     gap: 25px;
 }
 .nav__item {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 200;
     transition: .5s all;
     transform: scale(.9);
