@@ -27,7 +27,7 @@ export default function Header({ onSearch, onGenreSelect }) {
   const getGenre = useCallback(
     (genre) => {
       setChoiseGenre(genre.id);
-      onGenreSelect(genre.id); // Передаём ID жанра в App
+      onGenreSelect(genre.id);
     },
     [onGenreSelect],
   );
