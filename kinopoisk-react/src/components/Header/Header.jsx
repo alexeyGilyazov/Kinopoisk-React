@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import Navigation from "../NavigationSection/Navigation";
-import Select from "../../Select/Select";
+import Select from "../Select/Select";
 import { genres } from "../../../data";
 import "./Header.css";
 import logo from "../../assets/logo.svg";

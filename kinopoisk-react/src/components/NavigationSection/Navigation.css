@@ -1,18 +1,19 @@
-
 .nav {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 25px;
 }
+
 .nav__item {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 200;
     transition: .5s all;
     transform: scale(.9);
     border-bottom: 1px solid transparent;
     color: #808080;
 }
+
 .nav__item:hover {
     transform: scale(1.2);
     color: black;

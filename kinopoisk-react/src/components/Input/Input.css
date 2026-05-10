@@ -3,9 +3,9 @@
     border: none;
     border-radius: 20px;
     background-color: white;
-    font-size: 16px;
+    font-size: 13px;
     color: #828282;
-    transition: box-shadow 0.7s  ;
+    transition: box-shadow 0.7s;
 }
 
 .input:focus {
