@@ -1,13 +1,12 @@
 import "./FilmsSection.css";
-// import logo from "../../assets/imgFilmempty.jpg";
 import Button from "../Button/Button";
 import { useState } from "react";
 
 export default function FilmsSection({ films }) {
-  const [roll, setRoll] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  function rollCardFilm() {
-    setRoll((prevRoll) => !prevRoll);
+  function toggleRoll(index) {
+    setActiveIndex((prev) => (prev === index ? null : index));
   }
 
   return (
@@ -15,69 +14,60 @@ export default function FilmsSection({ films }) {
       <div className="films">
         {films.map((film, index) => {
           const kinopoiskId = film.kinopoiskId || index;
+
+          const isRolled = activeIndex === index;
           return (
             <div
-              className={`film ${roll ? "rolled" : ""}`}
+              className={`film ${isRolled ? "rolled" : ""}`}
               key={`${kinopoiskId}`}
             >
               <div className="film__front">
-                {console.log(film)}
                 <img
                   style={{ width: "270px" }}
                   className="film__img"
                   src={film.posterUrlPreview}
-                  alt="kino"
+                  alt="poster"
                 />
                 <p className="film__title">{film.nameRu || "Не указано"}</p>
+
                 <p className="film__genre textAlign-left">
                   жанр:{" "}
                   <span className="film__content textAlign-left">
-                    {film.genres[0]?.genre || "Не указано"}
+                    {film.genres?.[0]?.genre || "Не указано"}
                   </span>
                 </p>
-                <p className="film__year textAlign-left">
-                  год релиза: <span className="film__content">{film.year}</span>
-                </p>
-                <p className="film__desc textAlign-left">
+
+                <p className="film__raiting textAlign-left">
                   рейтинг:{" "}
                   <span className="film__content">{film.ratingKinopoisk}</span>
                 </p>
-                <Button text="Подробнее" onClick={rollCardFilm} />
+
+                <p className="film__year textAlign-left">
+                  <span className="film__content">{film.year}</span>
+                </p>
+                <Button
+                  className="film__btn"
+                  text="Подробнее"
+                  onClick={() => toggleRoll(index)}
+                />
               </div>
+
               <div className="film__back">
                 <p className="film__back-title">Дополнительная информация</p>
                 <p className="film__back-desc">
-                  Здесь можно добавить описание, актеров и другие детали.
+                  Оригинальное название:{" "}
+                  {film.nameOriginal || `Нет информации на сервере`}
                 </p>
-                <Button text="Назад" onClick={rollCardFilm} />
+
+                <Button
+                  className="film__btn"
+                  text="Назад"
+                  onClick={() => toggleRoll(index)}
+                />
               </div>
             </div>
           );
         })}
-        {/* <div className={`film ${roll ? "rolled" : ""}`} key={`${kinopoiskId}`}>
-          <div className="film__front">
-            <img className="film__img" src={posterUrl} alt="kino" />
-            <p className="film__title">{film.nameRu || "Не указано"}</p>
-            <p className="film__genre textAlign-left">
-              жанр:{" "}
-              <span className="film__content textAlign-left">{film.genres[0]?.genre || "Не указано"}</span>
-            </p>
-            <p className="film__year textAlign-left">
-              год релиза: <span className="film__content">{film.year}</span>
-            </p>
-            <p className="film__desc textAlign-left">
-              рейтинг: <span className="film__content">{film.ratingKinopoisk}</span>
-            </p>
-            <Button text="Подробнее" onClick={rollCardFilm} />
-          </div>
-          <div className="film__back">
-            <p className="film__back-title">Дополнительная информация</p>
-            <p className="film__back-desc">
-              Здесь можно добавить описание, актеров и другие детали.
-            </p>
-            <Button text="Назад" onClick={rollCardFilm} />
-          </div>
-        </div> */}
       </div>
     </div>
   );

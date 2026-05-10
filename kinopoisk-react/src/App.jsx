@@ -1,13 +1,15 @@
 import "./App.css";
 import Header from "./components/Header/Header";
 import FilmsSection from "./components/FilmsSection/FilmsSection";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [films, setFilms] = useState([]);
+  const [loading, setLoading] = useState(false);
   const apiKey = import.meta.env.VITE_API_KEY;
 
   async function searchMoviesByTitle(query) {
+    setLoading(true);
     if (!apiKey) {
       console.error("проверь апи кей");
       return;
@@ -28,6 +30,7 @@ function App() {
 
       const data = await response.json();
       setFilms(data.films || []);
+      setLoading(false);
       if (data.films && data.films.length > 0) {
         console.log("good data");
       } else {
@@ -44,8 +47,8 @@ function App() {
       return;
     }
     const url = `https://kinopoiskapiunofficial.tech/api/v2.2/films?genres=${genreId}&page=1`;
-    // const url = "https://kinopoiskapiunofficial.tech/api/v2.2/films/filters";
     try {
+      setLoading(true);
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -57,7 +60,7 @@ function App() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      // console.log(data.items);
+      setLoading(false);
       setFilms(data.items || []);
       if (data.items && data.items.length <= 0) {
         console.log("No films found.");
@@ -66,6 +69,10 @@ function App() {
       console.error("error:", err);
     }
   }
+
+  useEffect(() => {
+    searchMoviesByGenre(1);
+  }, []);
 
   return (
     <>
