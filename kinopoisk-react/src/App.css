@@ -14,8 +14,37 @@
 
 }
 
-
 .container {
     width: 1200px;
     margin: 0 auto;
+}
+
+.iteractions {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 40px;
+}
+
+.btn.btn__sort {
+    margin-left: 0;
+    transition: .5s all;
+    background-color: black;
+    border-radius: 15px;
+    font-size: 12px;
+
+
+}
+
+.btn.btn__sort:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    border-radius: 15px;
+}
+
+.btn.btn__sort.up {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
 }

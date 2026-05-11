@@ -7,10 +7,14 @@ import { genres } from "../../../data";
 import "./Header.css";
 import logo from "../../assets/logo.svg";
 
-export default function Header({ onSearch, onGenreSelect }) {
+export default function Header({
+  onSearch,
+  onGenreSelect,
+  onSortDirectionChange,
+  sortDirection,
+}) {
   const [valueInput, setValueInput] = useState("");
   const [choiseGenre, setChoiseGenre] = useState(1);
-  const [saveFilm, setSaveFilm] = useState("");
 
   function handleInputChange(event) {
     setValueInput(event.target.value);
@@ -18,9 +22,7 @@ export default function Header({ onSearch, onGenreSelect }) {
 
   function searchFilm(event) {
     event.preventDefault();
-    const saveValue = valueInput;
-    setSaveFilm(saveValue);
-    onSearch(saveValue);
+    onSearch(valueInput);
     setValueInput("");
   }
 
@@ -51,9 +53,25 @@ export default function Header({ onSearch, onGenreSelect }) {
             />
           </form>
         </div>
-        <p>Выбранный жанр: {choiseGenre}</p>
-        <p>Введенный фильм: {saveFilm}</p>
-        <Select />
+        <div className="iteractions">
+          <Select onGenreChange={onGenreSelect} text="Поиск по жанру" />
+          <div className="sort">
+            <p>Сортировка по году</p>
+            {/* селект для выбора порядка */}
+            <select
+              value={sortDirection}
+              onChange={(e) => onSortDirectionChange(e.target.value)}
+            >
+              <option value="asc">По возрастанию</option>
+              <option value="desc">По убыванию</option>
+            </select>
+            {/* кнопка, показывающая текущий порядок с стрелкой */}
+            <Button
+              text={`Сортировать ${sortDirection === "asc" ? "↑" : "↓"}`}
+              onClick={() => onSortDirectionChange(sortDirection)} // ничего не делает, можно убрать или оставить
+            />
+          </div>
+        </div>
       </div>
     </header>
   );

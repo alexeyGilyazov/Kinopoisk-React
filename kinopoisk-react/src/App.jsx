@@ -1,12 +1,14 @@
 import "./App.css";
 import Header from "./components/Header/Header";
 import FilmsSection from "./components/FilmsSection/FilmsSection";
+import Loading from "./components/Loading/Loading";
 import { useState, useEffect } from "react";
 
 function App() {
+  const apiKey = import.meta.env.VITE_API_KEY;
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(false);
-  const apiKey = import.meta.env.VITE_API_KEY;
+  const [sortDirection, setSortDirection] = useState("asc"); // состояние порядка сортировки
 
   async function searchMoviesByTitle(query) {
     setLoading(true);
@@ -23,19 +25,12 @@ function App() {
           "Content-Type": "application/json",
         },
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
       setFilms(data.films || []);
       setLoading(false);
-      if (data.films && data.films.length > 0) {
-        console.log("good data");
-      } else {
-        console.log("No films found.");
-      }
     } catch (err) {
       console.error("error:", err);
     }
@@ -62,14 +57,32 @@ function App() {
       const data = await response.json();
       setLoading(false);
       setFilms(data.items || []);
-      if (data.items && data.items.length <= 0) {
-        console.log("No films found.");
-      }
     } catch (err) {
       console.error("error:", err);
+      setLoading(false);
     }
   }
 
+  // Обработка изменения порядка сортировки
+  function handleChangeSortDirection(newDirection) {
+    setSortDirection(newDirection);
+  }
+
+  // Эффект для сортировки фильмов при изменении sortDirection
+  useEffect(() => {
+    setFilms((prevFilms) => {
+      const sortedFilms = [...prevFilms].sort((a, b) => {
+        if (sortDirection === "asc") {
+          return a.year - b.year;
+        } else {
+          return b.year - a.year;
+        }
+      });
+      return sortedFilms;
+    });
+  }, [sortDirection]);
+
+  // Изначально грузим жанр
   useEffect(() => {
     searchMoviesByGenre(1);
   }, []);
@@ -79,8 +92,10 @@ function App() {
       <Header
         onSearch={searchMoviesByTitle}
         onGenreSelect={searchMoviesByGenre}
+        onSortDirectionChange={handleChangeSortDirection}
+        sortDirection={sortDirection}
       />
-      <FilmsSection films={films} />
+      {!loading ? <FilmsSection films={films} /> : <Loading />}
     </>
   );
 }
